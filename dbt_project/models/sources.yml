@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: public
+    database: postgres
+    schema: public
+    tables:
+      - name: invoice
+      - name: repositories
+      - name: issue
+      - name: issues_label

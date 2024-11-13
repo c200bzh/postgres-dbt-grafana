@@ -1,0 +1,151 @@
+version: 2
+
+models:
+  - name: invoices_dbt
+    description: "Model that processes and transforms invoice data from raw JSON payloads, extracting event details such as date, department, and amount in USD."
+    columns:
+      - name: event_id
+        description: "Unique identifier for each event in the payload."
+        tests:
+          - not_null
+      
+      - name: event_date
+        description: "Date associated with the event, parsed from various formats in the raw payload."
+        tests:
+          - not_null
+
+      - name: event_department
+        description: "Department associated with the event, extracted from the payload."
+        tests:
+          - not_null
+      
+      - name: amount_usd
+        description: "Amount in USD, converted from the original currency using the specified exchange rate."
+        tests:
+          - not_null
+
+      - name: month_year
+        description: "Truncated date representing the month and year of the event, based on event_date."
+        tests:
+          - not_null
+      
+
+
+
+  - name: issues_dbt
+    description: "Model that transforms issue data, including resolution times, repository details, and label extraction."
+    columns:
+      - name: id
+        description: "Unique identifier for each issue."
+        tests:
+          - not_null
+          - unique
+
+      - name: draft
+        description: "Indicates if the issue is in draft state."
+      
+      - name: state
+        description: "Current state of the issue, such as 'open' or 'closed'."
+        tests:
+          - not_null
+
+      - name: number
+        description: "Number of the issue within the repository."
+      
+      - name: node_id
+        description: "Node identifier for the issue."
+      
+      - name: comments
+        description: "Number of comments associated with the issue."
+      
+      - name: closed_at
+        description: "Date when the issue was closed, if applicable."
+      
+      - name: created_at
+        description: "Date when the issue was created."
+        tests:
+          - not_null
+      
+      - name: repository
+        description: "Full repository path where the issue resides (e.g., 'waku-org/js-waku')."
+        tests:
+          - not_null
+
+      - name: repository_name
+        description: "Extracted repository name from the full repository path."
+        tests:
+          - not_null
+      
+      - name: updated_at
+        description: "Date when the issue was last updated."
+      
+      - name: state_reason
+        description: "Reason for the current state of the issue, if provided."
+
+      - name: resolution_time
+        description: "Time taken to resolve the issue in days, calculated as the difference between 'closed_at' and 'created_at' for closed issues."
+
+      - name: label_name
+        description: "Name of the first label associated with the issue, if labels are present."
+  
+  - name: repositories_dbt
+    description: "Model that transforms repository data, providing details about each repository's configuration, status, and activity."
+    columns:
+      - name: id
+        description: "Unique identifier for each repository."
+        tests:
+          - not_null
+          - unique
+
+      - name: fork
+        description: "Boolean indicating whether the repository is a fork of another repository."
+      
+      - name: name
+        description: "Name of the repository."
+        tests:
+          - not_null
+
+      - name: size
+        description: "Size of the repository in kilobytes."
+
+      - name: forks
+        description: "Number of times the repository has been forked."
+      
+      - name: node_id
+        description: "Node identifier for the repository."
+      
+      - name: private
+        description: "Boolean indicating whether the repository is private."
+
+      - name: archived
+        description: "Boolean indicating whether the repository is archived."
+
+      - name: disabled
+        description: "Boolean indicating whether the repository is disabled."
+
+      - name: language
+        description: "Primary programming language used in the repository."
+
+      - name: watchers
+        description: "Number of users watching the repository."
+      
+      - name: pushed_at
+        description: "Date when the repository was last pushed to."
+      
+      - name: created_at
+        description: "Date when the repository was created."
+        tests:
+          - not_null
+
+      - name: has_issues
+        description: "Boolean indicating whether issues are enabled for the repository."
+
+      - name: updated_at
+        description: "Date when the repository was last updated."
+      
+      - name: open_issues
+        description: "Number of open issues in the repository."
+
+      - name: watchers_count
+        description: "Count of watchers for the repository."
+
