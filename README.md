@@ -26,8 +26,8 @@ The data from the database and grafana are persisted with docker volumes.
 
 ## Things I would do to continue this project 
 
-- Write more tests
 - Set up alerts on Grafana for example if you spend more than we should 
-Add pipelines so that data is always up to date
-add indexes 
+- Add pipelines so that data is always up to date. I would use Airflow for example to make sure the date in the table are up to date and automate the population of the data.
+- I would add indexes to the tables to make the query more efficient.
 - I would make the conversion rate from EUR and AOA dynamic (used in invoice_dbt.sql). I would create a conversion rate table populated by an API that would give the updated conversion rate. 
+- Write more tests
